@@ -1,8 +1,8 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#define OPT_OK 0
-#define OPT_EXIT -1
+#define OPT_OK (0)
+#define OPT_EXIT (-1)
 
 typedef int (*option_cb)(char *, void *);
 
@@ -22,16 +22,17 @@ static inline int parse_options(struct option *options, void *data, int argc, ch
             option_cb cb = o->callback;
             for (size_t j=0; ; j++) {
                 int status;
-                char c = pattern[j], d = arg[j];
-                if (c == ' ' && !d) status = cb(i < argc ? argv[++i] : NULL, data);
-                else if (c == '=' && (d == '=' || !d)) status = cb(d == '=' ? arg + j + 1 : NULL, data);
-                else if (c == '.') status = cb(d ? arg + j : i < argc ? argv[++i] : NULL, data);
-                else if (c == ':') status = cb(d ? arg + j + (d == '=') : i < argc ? argv[++i] : NULL, data);
-                else if (c == '*') status = cb(arg, data);
+                int b = pattern[j] && !pattern[j+1], c = pattern[j], d = arg[j];
+                if (b && c == ' ' && !d) arg = i < argc ? argv[++i] : NULL;
+                else if (b && c == '=' && (d == '=' || !d)) arg = d == '=' ? arg + j + 1 : NULL;
+                else if (b && c == '.') arg = d ? arg + j : i < argc ? argv[++i] : NULL;
+                else if (b && c == ':') arg = d ? arg + j + (d == '=') : i < argc ? argv[++i] : NULL;
+                else if (b && c == '*');
+                else if (b && c == '$' && !d);
                 else if (c != d) break;
-                else if (!c) status = cb(arg, data);
+                else if (!c);
                 else continue;
-                if (status == OPT_EXIT) return OPT_EXIT;
+                if ((status = cb(arg, data)) < 0) return status;
                 goto next;
 
             }

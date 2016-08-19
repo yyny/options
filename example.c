@@ -12,8 +12,8 @@ static int help(char *topic, void *userdata)
         puts("Usage: prog [options...] [FILES...]");
         puts("Options:");
         for (struct option *o = options; o->pattern; o++) {
-            if (o->name && o->help) {
-                printf("  %-*s%s\n", 32, o->name, o->help);
+            if (o->name && o->userdata) {
+                printf("  %-*s%s\n", 32, o->name, o->userdata);
             }
         }
     } else {

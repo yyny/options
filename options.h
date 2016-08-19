@@ -10,7 +10,7 @@ struct option {
     char *name;
     char *pattern;
     option_cb callback;
-    char *help;
+    void *userdata;
 };
 
 static inline int parse_options(struct option *options, void *data, int argc, char *argv[])

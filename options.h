@@ -15,7 +15,7 @@ struct option {
 
 static inline int parse_options(struct option *options, void *data, int argc, char *argv[])
 {
-    for (size_t i=1; i < argc; i++) {
+    for (int i=1; i < argc; i++) {
         char *arg = argv[i];
         for (struct option *o = options; o->pattern; o++) {
             char *pattern = o->pattern;

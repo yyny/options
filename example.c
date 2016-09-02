@@ -13,7 +13,7 @@ static int help(char *topic, void *userdata)
         puts("Options:");
         for (struct option *o = options; o->pattern; o++) {
             if (o->name && o->userdata) {
-                printf("  %-*s%s\n", 32, o->name, o->userdata);
+                printf("  %-*s%s\n", 32, o->name, (char *)o->userdata);
             }
         }
     } else {

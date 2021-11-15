@@ -49,13 +49,16 @@ static inline int parse_options(struct option *options, void *data, int argc, ch
                 int b = pattern[j] && !pattern[j+1], c = pattern[j], d = arg[j];
                 if (b && c == ' ' && !d) arg = i < argc ? argv[++i] : NULL;
                 else if (b && c == '?' && (d == '=' || !d)) arg = d == '=' ? arg + j + 1 : (i < argc ? argv[++i] : NULL);
+                else if (b && c == '?') break;
                 else if (b && c == '=' && (d == '=' || !d)) arg = d == '=' ? arg + j + 1 : NULL;
+                else if (b && c == '=') break;
                 else if (b && c == '.') arg = d ? arg + j : i < argc ? argv[++i] : NULL;
                 else if (b && c == ':') arg = d ? arg + j + (d == '=') : (i < argc ? argv[++i] : NULL);
                 else if (b && c == ',') arg = d ? arg + j : NULL;
                 else if (b && c == ';') arg = d ? arg + j + (d == '=') : NULL;
                 else if (b && c == '*');
                 else if (b && c == '$' && !d);
+                else if (b && c == '$') break;
                 else if (c != d) break;
                 else if (!c);
                 else continue;

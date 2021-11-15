@@ -67,7 +67,7 @@ static int invalid_option(char *option, void *userdata)
 }
 
 struct option options[] = {
-    { "--help[=topic]", "--help=",    help,               "Display help information" },
+    { "--help[=topic]", "--help?",    help,               "Display help information" },
     { "--version",      "--version",  version,            "Display version information" },
     { NULL,             "-- ",        add_input_file,     NULL },
     { NULL,             "-",          add_stdin,          NULL },

@@ -22,7 +22,6 @@ struct option {
 // '.'  the end of the argument or anything else
 // ':'  the end of the argument or '=' or anything else
 // ','  any nonempty string of characters
-// ';'  '=' or anything else
 // '*'  any string of characters
 // '$'  the end of the argument
 // ...  the character itself
@@ -33,7 +32,6 @@ struct option {
 // '.'  the string after the pattern or the next argument (or NULL)
 // ':'  the string after the '=' or after the pattern or the next argument (or NULL)
 // ','  the string after the pattern (or NULL)
-// ';'  the string after the '=' or after the pattern (or NULL)
 // '*'  the entire argument
 // '$'  the entire argument
 // ...  the entire argument
@@ -55,7 +53,6 @@ static inline int parse_options(struct option *options, void *data, int argc, ch
                 else if (b && c == '.') arg = d ? arg + j : i < argc ? argv[++i] : NULL;
                 else if (b && c == ':') arg = d ? arg + j + (d == '=') : (i < argc ? argv[++i] : NULL);
                 else if (b && c == ',') arg = d ? arg + j : NULL;
-                else if (b && c == ';') arg = d ? arg + j + (d == '=') : NULL;
                 else if (b && c == '*');
                 else if (b && c == '$' && !d);
                 else if (b && c == '$') break;

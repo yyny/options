@@ -32,6 +32,14 @@ static int version(char *arg, void *userdata)
 
     return OPT_EXIT;
 }
+static int color(char *color, void *userdata)
+{
+    (void)userdata;
+
+    printf("color: %s", color);
+
+    return OPT_OK;
+}
 static int add_input_file(char *file_name, void *userdata)
 {
     (void)userdata;
@@ -67,14 +75,16 @@ static int invalid_option(char *option, void *userdata)
 }
 
 struct option options[] = {
-    { "--help[=topic]", "--help?",    help,               "Display help information" },
-    { "--version",      "--version",  version,            "Display version information" },
-    { NULL,             "-- ",        add_input_file,     NULL },
-    { NULL,             "-",          add_stdin,          NULL },
-    { "-o <file>",      "-o.",        add_output_file,    "Add output file" },
-    { NULL,             "-*",         invalid_option,     NULL },
-    { NULL,             "*",          add_input_file,     NULL },
-    { NULL,             NULL,         NULL,               NULL },
+    { "--help[=topic]",     "--help?",    help,               "Display help information" },
+    { "--version",          "--version",  version,            "Display version information" },
+    { "--color<=what>",     "--color=",   color,              "Configure terminal colors" },
+    { NULL,                 "-- ",        add_input_file,     NULL },
+    { NULL,                 "-",          add_stdin,          NULL },
+    { "-o <file>",          "-o.",        add_output_file,    "Add output file" },
+    { "--output <file>",    "--output:",   add_output_file,    NULL },
+    { NULL,                 "-*",         invalid_option,     NULL },
+    { NULL,                 "*",          add_input_file,     NULL },
+    { NULL,                 NULL,         NULL,               NULL },
 };
 
 int main(int argc, char *argv[])
